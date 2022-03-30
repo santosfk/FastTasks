@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "fasttasks",
+    "slug": "fasttasks",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
