@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import database from "./src/config/firebase";
-import { Item } from "./app.styles";
+import { Container } from "./app.styles";
 import {
   doc,
   getDoc,
@@ -17,7 +17,7 @@ import {
   getDocs,
   query,
 } from "firebase/firestore";
-import ItemTask from "./src/components/ItemTask";
+import { Provider as PaperProvider, List } from "react-native-paper";
 
 export default function App() {
   const [data, setData] = useState([]);
@@ -41,21 +41,33 @@ export default function App() {
   };
   console.log(data);
   return (
-    <View style={styles.container}>
-      {data.map((item) => {
-        return <ItemTask key={item.id} title={item.title} />;
-      })}
-
-      <StatusBar style="auto" />
-      <TextInput
-        value={taskTitle}
-        onChangeText={setTaskTitle}
-        placeholder="digite a sua tarefa"
-      />
-      <TouchableOpacity onPress={pullData}>
-        <Text>Enviar</Text>
-      </TouchableOpacity>
-    </View>
+    <PaperProvider>
+      <Container>
+        <List.Section>
+          <List.Subheader>Tasks</List.Subheader>
+          <View>
+            {data.map((item) => {
+              return (
+                <List.Item
+                  title={item.title}
+                  key={item.id}
+                  left={(props) => <List.Icon {...props} icon="equal" />}
+                />
+              );
+            })}
+          </View>
+        </List.Section>
+        <StatusBar style="auto" />
+        <TextInput
+          value={taskTitle}
+          onChangeText={setTaskTitle}
+          placeholder="digite a sua tarefa"
+        />
+        <TouchableOpacity onPress={pullData}>
+          <Text>Enviar</Text>
+        </TouchableOpacity>
+      </Container>
+    </PaperProvider>
   );
 }
 
