@@ -6,9 +6,10 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import database from "./src/config/firebase";
-import { Container } from "./app.styles";
+import { Container, TextTask, InputContent } from "./app.styles";
 import {
   doc,
   getDoc,
@@ -18,7 +19,7 @@ import {
   query,
 } from "firebase/firestore";
 import { Provider as PaperProvider, List } from "react-native-paper";
-
+import TaskItem from "./src/components/TaskItem";
 export default function App() {
   const [data, setData] = useState([]);
   const [taskTitle, setTaskTitle] = useState("");
@@ -44,28 +45,25 @@ export default function App() {
     <PaperProvider>
       <Container>
         <List.Section>
-          <List.Subheader>Tasks</List.Subheader>
-          <View>
+          <ScrollView>
+            <List.Subheader>Tasks</List.Subheader>
+
             {data.map((item) => {
-              return (
-                <List.Item
-                  title={item.title}
-                  key={item.id}
-                  left={(props) => <List.Icon {...props} icon="equal" />}
-                />
-              );
+              return <TaskItem title={item.title} key={item.id} />;
             })}
-          </View>
+          </ScrollView>
         </List.Section>
         <StatusBar style="auto" />
-        <TextInput
-          value={taskTitle}
-          onChangeText={setTaskTitle}
-          placeholder="digite a sua tarefa"
-        />
-        <TouchableOpacity onPress={pullData}>
-          <Text>Enviar</Text>
-        </TouchableOpacity>
+        <InputContent>
+          <TextTask
+            value={data}
+            onChangeText={setTaskTitle}
+            placeholder="digite a sua tarefa"
+          />
+          <TouchableOpacity onPress={pullData}>
+            <Text>Enviar</Text>
+          </TouchableOpacity>
+        </InputContent>
       </Container>
     </PaperProvider>
   );
