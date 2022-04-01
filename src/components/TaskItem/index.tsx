@@ -1,7 +1,6 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { Container, Title } from "./style";
-import { Checkbox } from "react-native-paper";
+import { Container, Title, IconContent } from "./style";
+import { Button, Checkbox } from "react-native-paper";
 import { useState } from "react";
 type Props = {
   title: string;
@@ -11,12 +10,15 @@ export default function TaskItem({ title }: Props) {
   return (
     <Container checked={checked}>
       <Title checked={checked}>{title}</Title>
-      <Checkbox
-        status={checked ? "checked" : "unchecked"}
-        onPress={() => {
-          setChecked(!checked);
-        }}
-      />
+      <IconContent>
+        <Checkbox
+          status={checked ? "checked" : "unchecked"}
+          onPress={() => {
+            setChecked(!checked);
+          }}
+        />
+        <Button icon="delete"> </Button>
+      </IconContent>
     </Container>
   );
 }

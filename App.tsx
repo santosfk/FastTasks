@@ -18,7 +18,7 @@ import {
   getDocs,
   query,
 } from "firebase/firestore";
-import { Provider as PaperProvider, List } from "react-native-paper";
+import { Provider as PaperProvider, List, Button } from "react-native-paper";
 import TaskItem from "./src/components/TaskItem";
 export default function App() {
   const [data, setData] = useState([]);
@@ -60,8 +60,10 @@ export default function App() {
             onChangeText={setTaskTitle}
             placeholder="digite a sua tarefa"
           />
-          <TouchableOpacity onPress={pullData}>
-            <Text>Enviar</Text>
+          <TouchableOpacity>
+            <Button icon="send" onPress={pullData}>
+              Enviar
+            </Button>
           </TouchableOpacity>
         </InputContent>
       </Container>
