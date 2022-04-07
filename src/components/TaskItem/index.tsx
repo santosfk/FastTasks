@@ -4,8 +4,9 @@ import { Button, Checkbox } from "react-native-paper";
 import { useState } from "react";
 type Props = {
   title: string;
+  delData: (title: string) => void;
 };
-export default function TaskItem({ title }: Props) {
+export default function TaskItem({ title, delData }: Props) {
   const [checked, setChecked] = useState(false);
   return (
     <Container checked={checked}>
@@ -17,7 +18,9 @@ export default function TaskItem({ title }: Props) {
             setChecked(!checked);
           }}
         />
-        <Button icon="delete"> </Button>
+        <Button icon="delete" onPress={() => delData(title)}>
+          excluir
+        </Button>
       </IconContent>
     </Container>
   );

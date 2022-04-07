@@ -2,12 +2,17 @@ import styled from "styled-components/native";
 
 export const Container = styled.View`
   justify-content: center;
+  height: 100%;
+`;
+export const ListWrap = styled.View`
+  margin-top: 0;
+  margin-bottom: 90%;
 `;
 export const InputContent = styled.View`
   width: 100%;
-  justify-content: space-around;
   align-items: center;
   position: absolute;
+  flex: 1;
   bottom: 0;
 `;
 export const TextTask = styled.TextInput`

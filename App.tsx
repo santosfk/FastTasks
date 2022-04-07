@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import database from "./src/config/firebase";
-import { Container, TextTask, InputContent } from "./app.styles";
+import { Container, TextTask, InputContent, ListWrap } from "./app.styles";
 import {
   doc,
   getDoc,
@@ -17,6 +17,7 @@ import {
   setDoc,
   getDocs,
   query,
+  deleteDoc,
 } from "firebase/firestore";
 import { Provider as PaperProvider, List, Button } from "react-native-paper";
 import TaskItem from "./src/components/TaskItem";
@@ -30,7 +31,7 @@ export default function App() {
     await setDoc(doc(taskRef, taskTitle), {
       title: taskTitle,
     });
-    setSendData(true);
+    setSendData(!sendData);
   };
   useEffect(() => {
     getData();
@@ -40,23 +41,35 @@ export default function App() {
     const data = await getDocs(taskRef);
     setData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
+  const delData = async (title: string) => {
+    await deleteDoc(doc(database, "tasks", title));
+    setSendData(!sendData);
+  };
   console.log(data);
   return (
     <PaperProvider>
       <Container>
-        <List.Section>
-          <ScrollView>
-            <List.Subheader>Tasks</List.Subheader>
+        <ListWrap>
+          <List.Section>
+            <ScrollView>
+              <List.Subheader>Tasks</List.Subheader>
 
-            {data.map((item) => {
-              return <TaskItem title={item.title} key={item.id} />;
-            })}
-          </ScrollView>
-        </List.Section>
+              {data.map((item) => {
+                return (
+                  <TaskItem
+                    title={item.title}
+                    key={item.id}
+                    delData={delData}
+                  />
+                );
+              })}
+            </ScrollView>
+          </List.Section>
+        </ListWrap>
         <StatusBar style="auto" />
         <InputContent>
           <TextTask
-            value={data}
+            value={taskTitle}
             onChangeText={setTaskTitle}
             placeholder="digite a sua tarefa"
           />
