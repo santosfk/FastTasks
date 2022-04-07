@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text } from "react-native";
 import { Switch } from "react-native-paper";
-import { Container } from "./style";
+import { Container, Title } from "./style";
 
 type Props = {
   changeTheme: () => void;
@@ -16,7 +16,7 @@ export default function Header({ changeTheme }: Props) {
   };
   return (
     <Container>
-      <Text>FastTasks</Text>
+      <Title>FastTasks</Title>
       <Text>
         <Switch
           value={isSwitchOn}

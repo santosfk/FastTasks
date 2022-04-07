@@ -6,13 +6,13 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.COLOR.BACKGROUND};
 `;
 export const ListWrap = styled.View`
-  margin-top: 0;
-  margin-bottom: 90%;
+  margin-top: -110%;
 `;
 export const InputContent = styled.View`
   width: 100%;
   align-items: center;
   position: absolute;
+  z-index: 2;
   flex: 1;
   bottom: 0;
 `;

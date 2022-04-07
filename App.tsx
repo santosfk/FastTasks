@@ -56,7 +56,7 @@ export default function App() {
   return (
     <PaperProvider>
       <ThemeProvider theme={themeToggle ? theme.light : theme.dark}>
-        <StatusBar style={themeToggle ? "dark" : "light"} />
+        <StatusBar style={themeToggle ? "light" : "dark"} />
         <Container>
           <Header changeTheme={changeTheme} />
           <ListWrap>

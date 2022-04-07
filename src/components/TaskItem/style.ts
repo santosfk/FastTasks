@@ -13,7 +13,7 @@ export const Container = styled.View<{ checked: Boolean }>`
 export const Title = styled.Text<{ checked: Boolean }>`
   flex: 1;
   text-decoration: ${({ checked }) => (checked ? "line-through" : "none")};
-  color: ${({ theme }) => theme.COLOR.TEXT};
+  color: ${({ theme }) => theme.COLOR.ICONS};
   font-size: 15px;
 `;
 export const IconContent = styled.View`
