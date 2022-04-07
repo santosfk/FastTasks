@@ -20,7 +20,9 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { Provider as PaperProvider, List, Button } from "react-native-paper";
+import { ThemeProvider } from "styled-components";
 import TaskItem from "./src/components/TaskItem";
+import theme from "./src/theme";
 export default function App() {
   const [data, setData] = useState([]);
   const [taskTitle, setTaskTitle] = useState("");
@@ -48,38 +50,40 @@ export default function App() {
   console.log(data);
   return (
     <PaperProvider>
-      <Container>
-        <ListWrap>
-          <List.Section>
-            <ScrollView>
-              <List.Subheader>Tasks</List.Subheader>
+      <ThemeProvider theme={theme.dark.COLOR}>
+        <Container>
+          <ListWrap>
+            <List.Section>
+              <ScrollView>
+                <List.Subheader>Tasks</List.Subheader>
 
-              {data.map((item) => {
-                return (
-                  <TaskItem
-                    title={item.title}
-                    key={item.id}
-                    delData={delData}
-                  />
-                );
-              })}
-            </ScrollView>
-          </List.Section>
-        </ListWrap>
-        <StatusBar style="auto" />
-        <InputContent>
-          <TextTask
-            value={taskTitle}
-            onChangeText={setTaskTitle}
-            placeholder="digite a sua tarefa"
-          />
-          <TouchableOpacity>
-            <Button icon="send" onPress={pullData}>
-              Enviar
-            </Button>
-          </TouchableOpacity>
-        </InputContent>
-      </Container>
+                {data.map((item) => {
+                  return (
+                    <TaskItem
+                      title={item.title}
+                      key={item.id}
+                      delData={delData}
+                    />
+                  );
+                })}
+              </ScrollView>
+            </List.Section>
+          </ListWrap>
+          <StatusBar style="auto" />
+          <InputContent>
+            <TextTask
+              value={taskTitle}
+              onChangeText={setTaskTitle}
+              placeholder="digite a sua tarefa"
+            />
+            <TouchableOpacity>
+              <Button icon="send" onPress={pullData}>
+                Enviar
+              </Button>
+            </TouchableOpacity>
+          </InputContent>
+        </Container>
+      </ThemeProvider>
     </PaperProvider>
   );
 }
