@@ -23,10 +23,13 @@ import { Provider as PaperProvider, List, Button } from "react-native-paper";
 import { ThemeProvider } from "styled-components";
 import TaskItem from "./src/components/TaskItem";
 import theme from "./src/theme";
+import Header from "./src/components/Header";
+
 export default function App() {
   const [data, setData] = useState([]);
   const [taskTitle, setTaskTitle] = useState("");
   const [sendData, setSendData] = useState(false);
+  const [themeToggle, setThemeToggle] = useState(false);
 
   const taskRef = collection(database, "tasks");
   const pullData = async () => {
@@ -47,16 +50,18 @@ export default function App() {
     await deleteDoc(doc(database, "tasks", title));
     setSendData(!sendData);
   };
-  console.log(data);
+  const changeTheme = () => {
+    setThemeToggle(!themeToggle);
+  };
   return (
     <PaperProvider>
-      <ThemeProvider theme={theme.dark.COLOR}>
+      <ThemeProvider theme={themeToggle ? theme.light : theme.dark}>
+        <StatusBar style={themeToggle ? "dark" : "light"} />
         <Container>
+          <Header changeTheme={changeTheme} />
           <ListWrap>
             <List.Section>
               <ScrollView>
-                <List.Subheader>Tasks</List.Subheader>
-
                 {data.map((item) => {
                   return (
                     <TaskItem
@@ -69,7 +74,7 @@ export default function App() {
               </ScrollView>
             </List.Section>
           </ListWrap>
-          <StatusBar style="auto" />
+
           <InputContent>
             <TextTask
               value={taskTitle}
