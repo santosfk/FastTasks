@@ -8,7 +8,7 @@ export const Container = styled.View<{ checked: Boolean }>`
   margin-top: 0;
   padding: 14px;
   background-color: ${({ checked }) => (checked ? "#F0541D" : "#d0d0d0")};
-  align-items: flex-start;
+  align-items: center;
 `;
 export const Title = styled.Text<{ checked: Boolean }>`
   flex: 1;
