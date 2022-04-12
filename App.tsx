@@ -20,10 +20,10 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { Provider as PaperProvider, List, Button } from "react-native-paper";
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider } from "styled-components/native";
 import TaskItem from "./src/components/TaskItem";
-import theme from "./src/theme";
 import Header from "./src/components/Header";
+import theme from "./src/theme/theme";
 
 export default function App() {
   const [data, setData] = useState([]);
@@ -53,9 +53,12 @@ export default function App() {
   const changeTheme = () => {
     setThemeToggle(!themeToggle);
   };
+
+  const customTheme = themeToggle ? theme?.dark : theme?.light;
+
   return (
     <PaperProvider>
-      <ThemeProvider theme={themeToggle ? theme.light : theme.dark}>
+      <ThemeProvider theme={customTheme}>
         <StatusBar style={themeToggle ? "light" : "dark"} />
         <Container>
           <Header changeTheme={changeTheme} />
