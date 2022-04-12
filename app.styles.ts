@@ -6,7 +6,7 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.COLOR.BACKGROUND};
 `;
 export const ListWrap = styled.View`
-  margin-top: -110%;
+ margin-top: 100px;
 `;
 export const InputContent = styled.View`
   width: 100%;

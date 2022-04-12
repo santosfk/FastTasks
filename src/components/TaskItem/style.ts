@@ -5,7 +5,6 @@ export const Container = styled.View<{ checked: Boolean }>`
   flex-direction: row;
   border-radius: 10px;
   margin: 10px 10px;
-  margin-top: 0;
   padding: 14px;
   background-color: ${({ checked }) => (checked ? "#F0541D" : "#d0d0d0")};
   align-items: center;
