@@ -1,109 +1,33 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
-import database from "./src/config/firebase";
-import { Container, TextTask, InputContent, ListWrap } from "./app.styles";
-import {
-  doc,
-  getDoc,
-  collection,
-  setDoc,
-  getDocs,
-  query,
-  deleteDoc,
-} from "firebase/firestore";
-import { Provider as PaperProvider, List, Button } from "react-native-paper";
+import React, { useState } from "react";
+import Home from "./src/Pages/Home";
+import { Provider as PaperProvider } from "react-native-paper";
 import { ThemeProvider } from "styled-components/native";
-import TaskItem from "./src/components/TaskItem";
-import Header from "./src/components/Header";
 import theme from "./src/theme/theme";
+import Login from "./src/Pages/Login";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 export default function App() {
-  const [data, setData] = useState([]);
-  const [taskTitle, setTaskTitle] = useState("");
-  const [sendData, setSendData] = useState(false);
   const [themeToggle, setThemeToggle] = useState(false);
 
-  const taskRef = collection(database, "tasks");
-  const pullData = async () => {
-    await setDoc(doc(taskRef, taskTitle), {
-      title: taskTitle,
-    });
-    setSendData(!sendData);
-  };
-  useEffect(() => {
-    getData();
-  }, [sendData]);
-
-  const getData = async () => {
-    const data = await getDocs(taskRef);
-    setData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  };
-  const delData = async (title: string) => {
-    await deleteDoc(doc(database, "tasks", title));
-    setSendData(!sendData);
-  };
   const changeTheme = () => {
     setThemeToggle(!themeToggle);
   };
 
   const customTheme = themeToggle ? theme?.dark : theme?.light;
-
+  const Tab = createBottomTabNavigator();
   return (
     <PaperProvider>
       <ThemeProvider theme={customTheme}>
         <StatusBar style={themeToggle ? "light" : "dark"} />
-        <Container>
-          <Header changeTheme={changeTheme} />
-          <ListWrap>
-            <List.Section>
-              <ScrollView>
-                {data.map((item) => {
-                  return (
-                    <TaskItem
-                      title={item.title}
-                      key={item.id}
-                      delData={delData}
-                    />
-                  );
-                })}
-              </ScrollView>
-            </List.Section>
-          </ListWrap>
-
-          <InputContent>
-            <TextTask
-              value={taskTitle}
-              onChangeText={setTaskTitle}
-              placeholder="digite a sua tarefa"
-            />
-            <TouchableOpacity>
-              <Button icon="send" onPress={pullData}>
-                Enviar
-              </Button>
-            </TouchableOpacity>
-          </InputContent>
-        </Container>
+        <NavigationContainer>
+          <Tab.Navigator>
+            <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Settings" component={SettingsScreen} />
+          </Tab.Navigator>
+        </NavigationContainer>
       </ThemeProvider>
     </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  content: {
-    flexDirection: "column",
-  },
-});
