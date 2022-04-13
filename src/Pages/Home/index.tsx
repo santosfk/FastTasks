@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { TouchableOpacity, ScrollView } from "react-native";
 import database from "../../config/firebase";
 import { Container, TextTask, InputContent, ListWrap } from "./style";
 import {
@@ -13,11 +13,10 @@ import {
 import { List, Button } from "react-native-paper";
 import TaskItem from "../../components/TaskItem";
 import Header from "../../components/Header";
+import { ThemeProvider } from "styled-components/native";
+import theme from "../../theme/theme";
 
-type Props = {
-  changeTheme: () => void;
-};
-export default function Home({ changeTheme }:Props) {
+export default function Home() {
   const [data, setData] = useState([]);
   const [taskTitle, setTaskTitle] = useState("");
   const [sendData, setSendData] = useState(false);
@@ -42,46 +41,45 @@ export default function Home({ changeTheme }:Props) {
     await deleteDoc(doc(database, "tasks", title));
     setSendData(!sendData);
   };
+  const changeTheme = () => {
+    setThemeToggle(!themeToggle);
+  };
+  const customTheme = themeToggle ? theme?.dark : theme?.light;
 
   return (
-    <Container>
-      <Header changeTheme={changeTheme} />
-      <ListWrap>
-        <List.Section>
-          <ScrollView>
-            {data.map((item) => {
-              return (
-                <TaskItem title={item.title} key={item.id} delData={delData} />
-              );
-            })}
-          </ScrollView>
-        </List.Section>
-      </ListWrap>
+    <ThemeProvider theme={customTheme}>
+      <StatusBar style={themeToggle ? "light" : "dark"} />
+      <Container>
+        <Header changeTheme={changeTheme} />
+        <ListWrap>
+          <List.Section>
+            <ScrollView>
+              {data.map((item) => {
+                return (
+                  <TaskItem
+                    title={item.title}
+                    key={item.id}
+                    delData={delData}
+                  />
+                );
+              })}
+            </ScrollView>
+          </List.Section>
+        </ListWrap>
 
-      <InputContent>
-        <TextTask
-          value={taskTitle}
-          onChangeText={setTaskTitle}
-          placeholder="digite a sua tarefa"
-        />
-        <TouchableOpacity>
-          <Button icon="send" onPress={pullData}>
-            Enviar
-          </Button>
-        </TouchableOpacity>
-      </InputContent>
-    </Container>
+        <InputContent>
+          <TextTask
+            value={taskTitle}
+            onChangeText={setTaskTitle}
+            placeholder="digite a sua tarefa"
+          />
+          <TouchableOpacity>
+            <Button icon="send" onPress={pullData}>
+              Enviar
+            </Button>
+          </TouchableOpacity>
+        </InputContent>
+      </Container>
+    </ThemeProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  content: {
-    flexDirection: "column",
-  },
-});
