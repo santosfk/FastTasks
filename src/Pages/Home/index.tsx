@@ -1,5 +1,5 @@
+import React, { useEffect, useState, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
 import { TouchableOpacity, ScrollView } from "react-native";
 import database from "../../config/firebase";
 import { Container, TextTask, InputContent, ListWrap } from "./style";
@@ -14,6 +14,7 @@ import { List, Button } from "react-native-paper";
 import TaskItem from "../../components/TaskItem";
 import Header from "../../components/Header";
 import { ThemeProvider } from "styled-components/native";
+import { ThemeChange } from "../../Context/themeChange";
 import theme from "../../theme/theme";
 
 export default function Home() {
@@ -41,16 +42,12 @@ export default function Home() {
     await deleteDoc(doc(database, "tasks", title));
     setSendData(!sendData);
   };
-  const changeTheme = () => {
-    setThemeToggle(!themeToggle);
-  };
-  const customTheme = themeToggle ? theme?.dark : theme?.light;
-
+  const { changeTheme } = useContext(ThemeChange);
   return (
-    <ThemeProvider theme={customTheme}>
-      <StatusBar style={themeToggle ? "light" : "dark"} />
+    <ThemeProvider theme={changeTheme ? theme.dark : theme.light}>
+      <StatusBar style={changeTheme ? "light" : "dark"} />
       <Container>
-        <Header changeTheme={changeTheme} />
+        <Header />
         <ListWrap>
           <List.Section>
             <ScrollView>

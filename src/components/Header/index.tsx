@@ -1,18 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text } from "react-native";
 import { Switch } from "react-native-paper";
 import { Container, Title } from "./style";
-
-type Props = {
-  changeTheme: () => void;
-};
-
-export default function Header({ changeTheme }: Props) {
+import { ThemeChange } from "../../Context/themeChange";
+export default function Header() {
   const [isSwitchOn, setIsSwitchOn] = useState(false);
-
+  const { changeTheme, setChangeTheme } = useContext(ThemeChange);
   const onToggleSwitch = () => {
     setIsSwitchOn(!isSwitchOn);
-    changeTheme();
+    setChangeTheme(!changeTheme);
+    console.log("header on");
+    console.log(changeTheme);
   };
   return (
     <Container>
