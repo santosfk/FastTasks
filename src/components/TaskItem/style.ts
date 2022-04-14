@@ -3,18 +3,18 @@ import styled from "styled-components/native";
 export const Container = styled.View<{ checked: Boolean }>`
   flex: 1;
   flex-direction: row;
-  margin: 10px 20px;
-  padding: 12px;
   border-radius: 10px;
-  background-color: ${({ checked }) => (checked ? "#F0541D" : "white")};
+  margin: 10px 10px;
+  padding: 14px;
+  background-color: ${({ checked }) => (checked ? "#F0541D" : "#d0d0d0")};
   align-items: center;
 `;
 export const Title = styled.Text<{ checked: Boolean }>`
   flex: 1;
   text-decoration: ${({ checked }) => (checked ? "line-through" : "none")};
-  color: black;
+  color: ${({ theme }) => theme.COLOR.ICONS};
   font-size: 15px;
 `;
 export const IconContent = styled.View`
-  justify-content: center;
+  flex-direction: row;
 `;

@@ -1,84 +1,27 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
-import database from "./src/config/firebase";
-import { Container, TextTask, InputContent } from "./app.styles";
-import {
-  doc,
-  getDoc,
-  collection,
-  setDoc,
-  getDocs,
-  query,
-} from "firebase/firestore";
-import { Provider as PaperProvider, List, Button } from "react-native-paper";
-import TaskItem from "./src/components/TaskItem";
+import React from "react";
+import Home from "./src/Pages/Home";
+import { Provider as PaperProvider } from "react-native-paper";
+import Login from "./src/Pages/Login";
+import Signin from "./src/Pages/Signin";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import ThemeChangeContext from "./src/Context/themeChange";
+
 export default function App() {
-  const [data, setData] = useState([]);
-  const [taskTitle, setTaskTitle] = useState("");
-  const [sendData, setSendData] = useState(false);
+  const Stack = createNativeStackNavigator();
 
-  const taskRef = collection(database, "tasks");
-  const pullData = async () => {
-    await setDoc(doc(taskRef, taskTitle), {
-      title: taskTitle,
-    });
-    setSendData(true);
-  };
-  useEffect(() => {
-    getData();
-  }, [sendData]);
-
-  const getData = async () => {
-    const data = await getDocs(taskRef);
-    setData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  };
-  console.log(data);
   return (
-    <PaperProvider>
-      <Container>
-        <List.Section>
-          <ScrollView>
-            <List.Subheader>Tasks</List.Subheader>
-
-            {data.map((item) => {
-              return <TaskItem title={item.title} key={item.id} />;
-            })}
-          </ScrollView>
-        </List.Section>
-        <StatusBar style="auto" />
-        <InputContent>
-          <TextTask
-            value={data}
-            onChangeText={setTaskTitle}
-            placeholder="digite a sua tarefa"
-          />
-          <TouchableOpacity>
-            <Button icon="send" onPress={pullData}>
-              Enviar
-            </Button>
-          </TouchableOpacity>
-        </InputContent>
-      </Container>
-    </PaperProvider>
+    <ThemeChangeContext>
+      <PaperProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Signin" component={Signin} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
+    </ThemeChangeContext>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  content: {
-    flexDirection: "column",
-  },
-});
